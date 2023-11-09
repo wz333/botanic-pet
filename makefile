@@ -12,4 +12,4 @@ install:
 
 .PHONY: run
 run:
-	export FLASK_ENV=development && flask run
+	export FLASK_ENV=development && flask run -p 15316
