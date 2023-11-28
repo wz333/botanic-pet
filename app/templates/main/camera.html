@@ -5,15 +5,44 @@
 <meta http-equiv="Expires" content="0" />
 <article>
   <main>
-<div class="wrapper">
+    <div class="wrapper">
 
   <div><img src="https://github.com/wz333/botanic-pet-assets/blob/main/profile.jpg?raw=true" class="image--cover"></div>
     <span class="profile-text">Your Botanic Pet</span>
 
 </div>
-      <img id = "emoji" src="{{ url_for('static', filename='images/emojis/02.gif') }}" alt="?"/>
 
-      <div class="status"><span id="status-msg">I'm doing great!</span></div>
+
+{#          <div class="overlay">#}
+{#      <div class="overlay-helper">#}
+{#        <div class="overlay-element top-left">#}
+{#          <span id="overlay-top-left-text" class="overlay-text">#}
+{#            🔴 REC#}
+{#          </span>#}
+{#        </div>#}
+{#        <div class="overlay-element top-right">#}
+{##}
+{#        </div>#}
+{#        <div class="overlay-element bottom-left">#}
+{##}
+{#        </div>#}
+{#        <div class="overlay-element bottom-right">#}
+{##}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+      <div class="switch-wrapper">
+          <img class="base" src="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjE5LTIwLWJnLXRlLTAzLmpwZw.jpg" width="270" height="180"></div>
+{#          <button class="button-2" role="button">Turn on the Camera</button>#}
+      <div class="switch-wrapper">
+<div class="onoffswitch">
+    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0">
+    <label class="onoffswitch-label" for="myonoffswitch">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+</div>
+          </div>
   </main>
 <footer><ul class="h-100 d-flex align-items-center justify-content-between ps-0">
 
@@ -34,22 +63,4 @@
                 </svg><span>Chat</span></a></li>
           </ul></footer>
 </article>
-    <script>
-    function update_emoji(){
-        $.ajax({
-            url:"/pet_status",
-            timeout:10000,
-            success:function(data){
-                console.log(data);
-                {#let path="\{\{ url_for(\'static\', filename=\'images/emojis/"+data.data+".gif\') }}";#}
-                let path="https://github.com/wz333/botanic-pet-assets/blob/main/"+data.data+".gif?raw=true"
-                $("#emoji").attr('src', path);
-            },
-            error:function (){
-                alert("unable to get status data")
-            }
-            });
-    }
-    setInterval(update_emoji,3000)
-    </script>
 {% endblock %}
