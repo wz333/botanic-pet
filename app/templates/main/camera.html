@@ -36,8 +36,6 @@
                 <img class="base" id="video"
                      src="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjE5LTIwLWJnLXRlLTAzLmpwZw.jpg"
                      width="270" height="180"></div>
-            <img class="camera-bg" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" class="center"
-                 src="{{ url_for('main.video_feed') }}">
             {#          <button class="button-2" role="button">Turn on the Camera</button>#}
             <div class="switch-wrapper">
                 <div class="onoffswitch">
@@ -80,7 +78,6 @@
     <script>
         $(document).ready(function () {
             $("input:checkbox").change(function () {
-                alert("unable to get status data");
                 if ($(this).is(":checked")) {
                     $("#video").attr('src', "{{ url_for('main.video_feed') }}");
                 } else {
