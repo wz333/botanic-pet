@@ -1,21 +1,22 @@
 import subprocess
-from threading import Thread
+import threading
 
-def run_command(command, result):
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    output, error = process.communicate()
-    result.append((output, error))
+# Define the command line commands to be executed
+command1 = "make run"
+command2 = "ngrok http 15316"
 
-# Commands to run in parallel
-command1 = ["echo", "make run"]
-command2 = ["echo", "ngrok http 15316"]
-
-# List to store the results
-results = []
+# Function to run a command and print its output
+def run_command(command):
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    if process.returncode == 0:
+        print(f"Output of '{command}': {stdout.decode().strip()}")
+    else:
+        print(f"Error in '{command}': {stderr.decode().strip()}")
 
 # Create threads for each command
-thread1 = Thread(target=run_command, args=(command1, results))
-thread2 = Thread(target=run_command, args=(command2, results))
+thread1 = threading.Thread(target=run_command, args=(command1,))
+thread2 = threading.Thread(target=run_command, args=(command2,))
 
 # Start the threads
 thread1.start()
@@ -24,11 +25,3 @@ thread2.start()
 # Wait for both threads to finish
 thread1.join()
 thread2.join()
-
-# Print the results
-for i, (output, error) in enumerate(results):
-    print(f"Command {i + 1} Output:")
-    print(output)
-    print(f"Command {i + 1} Error:")
-    print(error)
-    print("=" * 30)
