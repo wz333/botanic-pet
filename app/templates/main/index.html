@@ -15,7 +15,8 @@
 
       <div class="status"><span id="status-msg">I'm doing great!</span></div>
 <div class="status-data"><span id="humidity">Humidity (%): </span></div>
-<div class="status-data"><span id="temp">Temperature (C): </span></div>
+<div class="status-data"><span id="temp_c">Temperature (C): </span></div>
+<div class="status-data"><span id="temp_f">Temperature (F): </span></div>
 <div class="status-data"><span id="wet">Wetness (%): </span></div>
 <div class="status-data"><span id="light">Light (Lux): </span></div>
   </main>
@@ -49,7 +50,8 @@
                 let path="https://github.com/wz333/botanic-pet-assets/blob/main/"+data.data+".gif?raw=true"
                 $("#emoji").attr('src', path);
 		$("#humidity").html("Humidity (%): "+data.humi);
-		$("#temp").html("Temperature (C): "+ data.temp);
+		$("#temp_c").html("Temperature (C): "+ data.temp_c);
+		$("#temp_f").html("Temperature (F): "+ data.temp_f);
 		$("#wet").html("Wetness (%): "+ data.wet);
 		$("#light").html("Light (Lux): "+ data.lux);
 		$("#status-msg").html(data.msg);

@@ -21,6 +21,8 @@ import time
 import board
 import adafruit_tsl2591
 
+
+
 # Create sensor object, communicating over the board's default I2C bus
 i2c = board.I2C()  # uses board.SCL and board.SDA
 # i2c = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
@@ -35,6 +37,10 @@ import openpyxl
 excel_file = '/home/pi/botanic-pet/app/controller/final_plant_data.xlsx'
 workbook = openpyxl.load_workbook(excel_file)
 sheet = workbook.active
+
+
+
+
 
 bp = Blueprint('main', __name__)
 
@@ -70,9 +76,10 @@ def pet_status():
     status_code=random.choice(['00', '03', '03','03','04'])
     wetness = pm.get_wetness()
     temp_c = pm.get_temp()
+    temp_f = round(temp_c*1.8+32,2)
     humidity = int(pm.get_humidity())
     light = int(sensor.lux)
-    
+
     # light conditions
     if light<int(sheet.cell(row=row_index, column=8).value):
         msg="Zzz"
@@ -81,7 +88,23 @@ def pet_status():
         msg="It's dazzlingly bright!"
         status_code="20"
     
-    return jsonify({'data':status_code, 'wet': str(wetness), 'temp': str(temp_c), 'humi': str(humidity), 'lux': str(light), 'msg': msg})
+    # temperature conditions
+    if temp_f<int(sheet.cell(row=row_index, column=4).value):
+        msg="Freezingly COLD!"
+        status_code="30"
+    elif temp_f>int(sheet.cell(row=row_index, column=5).value):
+        msg="Way too hot!"
+        status_code="31"
+    
+    # wetness conditions
+    if wetness<int(sheet.cell(row=row_index, column=2).value):
+        msg="Water me!"
+        status_code="40"
+    elif wetness>int(sheet.cell(row=row_index, column=3).value):
+        msg="Too much water here!"
+        status_code="41"
+    
+    return jsonify({'data':status_code, 'wet': str(wetness), 'temp_c': str(temp_c), 'temp_f': str(temp_f), 'humi': str(humidity), 'lux': str(light), 'msg': msg})
     # return status_code
 
 @bp.route('/video_feed')
